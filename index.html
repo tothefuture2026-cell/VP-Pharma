@@ -221,7 +221,7 @@
             // Customize the email subject, body, and your email address here
             const email = 'tothefuture2026@gmail.com'; // REPLACE WITH YOUR EMAIL
             const subject = 'New Peptide Order';
-            const body = encodeURIComponent(orderDetails + (total > 0 ? `\nTotal: $${total.toFixed(2)}` : '') + '\n\nPlease provide your name and address if postage selexted. Payment details will be provided.');
+            const body = encodeURIComponent(orderDetails + (total > 0 ? `\nTotal: $${total.toFixed(2)}` : '') + '\n\nPlease provide your name and address if postage selected. Payment details will be provided.');
             const mailtoLink = `mailto:${email}?subject=${subject}&body=${body}`;
             
             document.getElementById('emailLink').href = mailtoLink;
@@ -230,4 +230,5 @@
         }
     </script>
 </body>
+
 </html>
