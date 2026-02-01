@@ -18,9 +18,12 @@
 <body>
     <h1>Order from the boys at VP Pharma</h1>
     <p>Select the quantity for each peptide you want to order, and express postage if required. The click "Generate Order" to review and email us.</p>
+    <p>We accept PAYID or Bank Transfer for payment. Details will be provided once order is sent.</p>
+    <p></p>
+    <p>Buy 2 HGH kits and get a free Reta 10mg</p>
+    <p>Buy 6 peptides and get a free Bac Water</p>
     
     <form id="orderForm">
-        <!-- Add more peptide fields as needed. Format: label, select with options 0-10 (customize range). -->
         <label for="BPC-157 10mg">BPC-157 10mg (Price: $90/vial):</label>
         <select id="BPC-157 10mg" data-price="90">
             <option value="0">0</option>
@@ -172,6 +175,21 @@
             <option value="10">10</option>
         </select>
 
+        <label for="Bacteriostatic Water 10ml">Bac Water 10ml (Price: $20/Vial):</label>
+        <select id="HGH 150iu" data-price="550">
+            <option value="0">0</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7">7</option>
+            <option value="8">8</option>
+            <option value="9">9</option>
+            <option value="10">10</option>
+        </select>
+        
         <label for="Express Post">Express Post (Price: $20):</label>
         <select id="Express Post" data-price="20">
             <option value="0">0</option>
@@ -232,3 +250,4 @@
 </body>
 
 </html>
+
