@@ -17,8 +17,8 @@
 </head>
 <body>
     <h1>Order from the boys at VP Pharma</h1>
-    <p>Select the quantity for each peptide you want to order, and express postage if required. The click "Generate Order" to review and email us.</p>
-    <p>We accept PAYID or Bank Transfer for payment. Details will be provided once order is sent.</p>
+    <p>Select the quantity for each peptide you want to order, and express postage if required. Then click "Generate Order" to review and email us.</p>
+    <p>We accept PAYID or Bank Transfer. Details will be provided once order is sent.</p>
     <p></p>
     <p>Buy 2 HGH kits and get a free Reta 10mg</p>
     <p>Buy 6 peptides and get a free Bac Water</p>
@@ -239,7 +239,7 @@
             // Customize the email subject, body, and your email address here
             const email = 'tothefuture2026@gmail.com'; // REPLACE WITH YOUR EMAIL
             const subject = 'New Peptide Order';
-            const body = encodeURIComponent(orderDetails + (total > 0 ? `\nTotal: $${total.toFixed(2)}` : '') + '\n\nPlease provide your name and address if postage selected. Payment details will be provided.');
+            const body = encodeURIComponent(orderDetails + (total > 0 ? `\nTotal: $${total.toFixed(2)}` : '') + '\n\nPlease provide your name and address if postage selected.');
             const mailtoLink = `mailto:${email}?subject=${subject}&body=${body}`;
             
             document.getElementById('emailLink').href = mailtoLink;
@@ -250,4 +250,5 @@
 </body>
 
 </html>
+
 
