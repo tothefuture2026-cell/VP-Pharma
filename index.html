@@ -197,75 +197,85 @@
     </div>
 
     <script>
-    function generateOrder() {
-        const form = document.getElementById('orderForm');
-        const selects = form.querySelectorAll('select');
-        let orderDetails = 'Order Details:\n';
-        let total = 0;
-        
-        selects.forEach(select => {
-            const qty = parseInt(select.value);
-            if (qty > 0) {
-                // Improve name formatting (remove extra spaces, capitalize properly)
-                let name = select.id
-                    .replace(/([A-Z])/g, ' $1')          // space before capitals
-                    .replace(/^./, str => str.toUpperCase()) // capitalize first letter
-                    .trim();
-                if (name.includes('iu')) name = name.replace('iu', 'IU'); // fix casing if wanted
-                const price = parseFloat(select.getAttribute('data-price')) || 0;
-                orderDetails += `${name}: ${qty} × $${price.toFixed(2)}\n`;
-                total += qty * price;
-            }
-        });
-        
-        if (orderDetails === 'Order Details:\n') {
-            alert('Please select at least one item.');
-            return;
-        }
-        
-        // Add total and helpful notes
-        const fullMessage = orderDetails +
-            (total > 0 ? `\nTotal: $${total.toFixed(2)} AUD` : '') +
-            '\n\nPayment: PAYID or Bank Transfer (details after confirmation)' +
-            '\nPlease reply with your full name, shipping address (if Express Post selected), and any questions.' +
-            '\nPromotions: Buy 2 HGH kits → free Reta 10mg | Buy 6 peptides → free Bac Water';
-
-        // Display summary (kept as-is, but improved a bit)
-        document.getElementById('summaryText').innerText = fullMessage;
-        document.getElementById('totalPrice').innerText = total > 0 ? `Total Price: $${total.toFixed(2)}` : '';
-        
-        // Threema link (preferred)
-        const threemaID = 'D3SJ2S6A'; // ← Replace with your real ID !!!
-        const encodedText = encodeURIComponent(fullMessage);
-        const threemaLink = `https://threema.id/${threemaID}?text=${encodedText}`;
-
-        // Optional: fallback to email if user cancels Threema prompt
-        if (confirm('This will open Threema to send your order securely.\n\n' +
-                    'Make sure you have Threema installed and your ID added if needed.\n\n' +
-                    'Click OK for Threema • Cancel for old email method.')) {
-            // Open Threema
-            window.location.href = threemaLink;
-            // Also update the visible link as backup (in case popup blocked)
-            document.getElementById('emailLink').href = threemaLink;
-            document.getElementById('emailLink').innerText = 'Open Threema & Send Order';
-        } else {
-            // Fallback to original email
-            const email = 'tothefuture2026@gmail.com';
-            const subject = 'New Peptide Order';
-            const body = encodeURIComponent(fullMessage);
-            const mailtoLink = `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${body}`;
+        function generateOrder() {
+            const form = document.getElementById('orderForm');
+            const selects = form.querySelectorAll('select');
+            let orderDetails = 'Order Details:\n';
+            let total = 0;
             
-            document.getElementById('emailLink').href = mailtoLink;
-            document.getElementById('emailLink').innerText = 'Email This Order (fallback)';
+            selects.forEach(select => {
+                const qty = parseInt(select.value);
+                if (qty > 0) {
+                    const name = select.id.replace(/^\w/, c => c.toUpperCase()); // Capitalize peptide name
+                    const price = parseFloat(select.getAttribute('data-price')) || 0;
+                    orderDetails += `${name}: ${qty} vials\n`;
+                    total += qty * price;
+                }
+            });
+            
+            if (orderDetails === 'Order Details:\n') {
+                alert('Please select at least one peptide.');
+                return;
+            }
+            
+            document.getElementById('summaryText').innerText = orderDetails;
+            document.getElementById('totalPrice').innerText = total > 0 ? `Total Price: $${total.toFixed(2)}` : '';
+            
+            const telegramUsername = 'vppharma2026';
+            function generateOrder() {
+    const form = document.getElementById('orderForm');
+    const selects = form.querySelectorAll('select');
+    let orderDetails = 'New order from VP Pharma website:\n\n';
+    let total = 0;
+
+    selects.forEach(select => {
+        const qty = parseInt(select.value);
+        if (qty > 0) {
+            // Better name formatting (remove extra spaces, fix capitalization)
+            let name = select.id
+                .replace(/([A-Z])/g, ' $1')           // insert space before capitals
+                .replace(/^./, str => str.toUpperCase()) // capitalize first letter
+                .trim();
+            if (name === "Express Post") name = "Express Postage";
+            if (name === "Bac Water 10ml") name = "Bac Water 10ml";
+
+            const price = parseFloat(select.getAttribute('data-price')) || 0;
+            orderDetails += `${name}: ${qty} × $${price.toFixed(0)}\n`;
+            total += qty * price;
         }
-        
-        document.getElementById('orderSummary').style.display = 'block';
+    });
+
+    if (orderDetails === 'New order from VP Pharma website:\n\n') {
+        alert('Please select at least one item.');
+        return;
     }
-</script>
+
+    orderDetails += `\nTotal: $${total.toFixed(2)}\n\n`;
+    orderDetails += `Payment: PAYID or Bank Transfer (details after confirmation)\n`;
+    orderDetails += `Promotions: Buy 2 HGH kits → free Reta 10mg | Buy 6 peptides → free Bac Water\n`;
+    orderDetails += `Please reply with your full name, shipping address (if Express Post selected), and preferred payment method.`;
+
+    // Show summary on page (keep your existing display logic)
+    document.getElementById('summaryText').innerText = orderDetails;
+    document.getElementById('totalPrice').innerText = total > 0 ? `Total Price: $${total.toFixed(2)}` : '';
     
+    // Create Telegram link
+    const encodedText = encodeURIComponent(orderDetails);
+    const telegramLink = `https://t.me/${telegramUsername}?text=${encodedText}`;
+
+    // Update the link
+    const linkElement = document.getElementById('emailLink');
+    linkElement.href = telegramLink;
+    linkElement.innerText = 'Send This Order via Telegram';
+    linkElement.target = '_blank'; // optional: open in new tab
+
+    document.getElementById('orderSummary').style.display = 'block';
+}
+    </script>
 </body>
 
 </html>
+
 
 
 
