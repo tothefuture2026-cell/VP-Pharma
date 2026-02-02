@@ -17,11 +17,17 @@
 </head>
 <body>
     <h1>Order from the boys at VP Pharma</h1>
-    <p>Select the quantity for each peptide you want to order, and express postage if required. Then click "Generate Order" to review and email us.</p>
-    <p>We accept PAYID or Bank Transfer. Details will be provided once order is sent.</p>
+    <p>Select quantities, add express postage if needed, then click "Generate Order" to review and send via Telegram (fastest & most secure). You'll need the Telegram app.</p>
+    <p>We accept PAYID or Bank Transfer. Details provided after confirmation.</p>
     <p></p>
     <p>Buy 2 HGH kits and get a free Reta 10mg</p>
     <p>Buy 6 peptides and get a free Bac Water</p>
+
+    <p style="background: #e3f2fd; padding: 10px; border-radius: 8px;">
+    <strong>Using Telegram for orders</strong><br>
+    Click the button below after generating — it opens a chat with @vppharma2026 pre-filled with your order.<br>
+    Just hit Send in Telegram. No account? <a href="https://telegram.org/" target="_blank">Download here</a>.<br>
+</p>
     
     <form id="orderForm">
         <label for="BPC-157 10mg">BPC-157 10mg (Price: $90/vial):</label>
@@ -197,84 +203,72 @@
     </div>
 
     <script>
-        function generateOrder() {
-            const form = document.getElementById('orderForm');
-            const selects = form.querySelectorAll('select');
-            let orderDetails = 'Order Details:\n';
-            let total = 0;
-            
-            selects.forEach(select => {
-                const qty = parseInt(select.value);
-                if (qty > 0) {
-                    const name = select.id.replace(/^\w/, c => c.toUpperCase()); // Capitalize peptide name
-                    const price = parseFloat(select.getAttribute('data-price')) || 0;
-                    orderDetails += `${name}: ${qty} vials\n`;
-                    total += qty * price;
-                }
-            });
-            
-            if (orderDetails === 'Order Details:\n') {
-                alert('Please select at least one peptide.');
-                return;
+    function generateOrder() {
+        const form = document.getElementById('orderForm');
+        const selects = form.querySelectorAll('select');
+        let orderDetails = 'New Peptide Order from VP Pharma website\n\n';
+        let total = 0;
+        let items = [];
+
+        selects.forEach(select => {
+            const qty = parseInt(select.value);
+            if (qty > 0) {
+                let name = select.id
+                    .replace(/([A-Z])/g, ' $1')  // Add space before capitals
+                    .replace(/^./, str => str.toUpperCase())
+                    .trim();
+
+                // Clean up specific names
+                if (name === "Express Post") name = "Express Postage";
+                if (name === "Bac Water 10ml") name = "Bac Water 10ml";
+
+                const price = parseFloat(select.getAttribute('data-price')) || 0;
+                const line = `${name}: ${qty} × $${price.toFixed(0)}`;
+                items.push(line);
+                total += qty * price;
             }
-            
-            document.getElementById('summaryText').innerText = orderDetails;
-            document.getElementById('totalPrice').innerText = total > 0 ? `Total Price: $${total.toFixed(2)}` : '';
-            
-            const telegramUsername = 'vppharma2026';
-            function generateOrder() {
-    const form = document.getElementById('orderForm');
-    const selects = form.querySelectorAll('select');
-    let orderDetails = 'New order from VP Pharma website:\n\n';
-    let total = 0;
+        });
 
-    selects.forEach(select => {
-        const qty = parseInt(select.value);
-        if (qty > 0) {
-            // Better name formatting (remove extra spaces, fix capitalization)
-            let name = select.id
-                .replace(/([A-Z])/g, ' $1')           // insert space before capitals
-                .replace(/^./, str => str.toUpperCase()) // capitalize first letter
-                .trim();
-            if (name === "Express Post") name = "Express Postage";
-            if (name === "Bac Water 10ml") name = "Bac Water 10ml";
-
-            const price = parseFloat(select.getAttribute('data-price')) || 0;
-            orderDetails += `${name}: ${qty} × $${price.toFixed(0)}\n`;
-            total += qty * price;
+        if (items.length === 0) {
+            alert('Please select at least one item.');
+            return;
         }
-    });
 
-    if (orderDetails === 'New order from VP Pharma website:\n\n') {
-        alert('Please select at least one item.');
-        return;
+        orderDetails += items.join('\n') + '\n\n';
+        orderDetails += `Total: $${total.toFixed(2)}\n\n`;
+        orderDetails += `Payment: PAYID or Bank Transfer (details provided after confirmation)\n`;
+        orderDetails += `Promotions:\n- Buy 2 HGH kits → free Reta 10mg\n- Buy 6 peptides → free Bac Water\n\n`;
+        orderDetails += `Please reply with:\n- Your full name\n- Shipping address (if Express Post selected)\n- Preferred payment method\nThank you!`;
+
+        // Show summary on the page (unchanged)
+        document.getElementById('summaryText').innerText = orderDetails;
+        document.getElementById('totalPrice').innerText = total > 0 ? `Total Price: $${total.toFixed(2)}` : '';
+
+        // Create Telegram deep link
+        const telegramUsername = 'vppharma2026';  // Your username (no @)
+        const encodedText = encodeURIComponent(orderDetails);
+        const telegramLink = `https://t.me/${telegramUsername}?text=${encodedText}`;
+
+        // Update the link button
+        const linkElement = document.getElementById('emailLink');
+        linkElement.href = telegramLink;
+        linkElement.innerText = 'Send This Order via Telegram';
+        linkElement.target = '_blank';  // Opens in new tab/window
+
+        document.getElementById('orderSummary').style.display = 'block';
     }
 
-    orderDetails += `\nTotal: $${total.toFixed(2)}\n\n`;
-    orderDetails += `Payment: PAYID or Bank Transfer (details after confirmation)\n`;
-    orderDetails += `Promotions: Buy 2 HGH kits → free Reta 10mg | Buy 6 peptides → free Bac Water\n`;
-    orderDetails += `Please reply with your full name, shipping address (if Express Post selected), and preferred payment method.`;
-
-    // Show summary on page (keep your existing display logic)
-    document.getElementById('summaryText').innerText = orderDetails;
-    document.getElementById('totalPrice').innerText = total > 0 ? `Total Price: $${total.toFixed(2)}` : '';
-    
-    // Create Telegram link
-    const encodedText = encodeURIComponent(orderDetails);
-    const telegramLink = `https://t.me/${telegramUsername}?text=${encodedText}`;
-
-    // Update the link
-    const linkElement = document.getElementById('emailLink');
-    linkElement.href = telegramLink;
-    linkElement.innerText = 'Send This Order via Telegram';
-    linkElement.target = '_blank'; // optional: open in new tab
-
-    document.getElementById('orderSummary').style.display = 'block';
-}
-    </script>
+    // Optional fallback function (add if you want email backup)
+    function fallbackToEmail() {
+        const body = encodeURIComponent(document.getElementById('summaryText').innerText);
+        const mailto = `mailto:tothefuture2026@gmail.com?subject=New%20Peptide%20Order&body=${body}`;
+        window.location.href = mailto;
+    }
+</script>
 </body>
 
 </html>
+
 
 
 
