@@ -196,11 +196,11 @@
     </form>
     
     <div id="orderSummary">
-        <h2>Order Summary</h2>
-        <p id="summaryText"></p>
-        <p id="totalPrice"></p>
-        <a id="emailLink" href="#" target="_blank">Email This Order</a>
-    </div>
+    <h2>Order Summary</h2>
+    <p id="summaryText"></p>
+    <p id="totalPrice"></p>
+    <a id="emailLink" href="#" target="_blank">Send via Telegram</a>
+</div>
 
     <script>
     function generateOrder() {
@@ -238,7 +238,7 @@
         orderDetails += `Total: $${total.toFixed(2)}\n\n`;
         orderDetails += `Payment: PAYID or Bank Transfer (details provided after confirmation)\n`;
         orderDetails += `Promotions:\n- Buy 2 HGH kits → free Reta 10mg\n- Buy 6 peptides → free Bac Water\n\n`;
-        orderDetails += `Please reply with:\n- Your full name\n- Shipping address (if Express Post selected)\n- Preferred payment method\nThank you!`;
+        orderDetails += `Please reply with:\n- Your full name\n- Shipping address (if Express Post selected)\n- Preferred payment method (PAYID or Bank Transfer)\nThank you!`;
 
         // Show summary on the page (unchanged)
         document.getElementById('summaryText').innerText = orderDetails;
@@ -257,17 +257,11 @@
 
         document.getElementById('orderSummary').style.display = 'block';
     }
-
-    // Optional fallback function (add if you want email backup)
-    function fallbackToEmail() {
-        const body = encodeURIComponent(document.getElementById('summaryText').innerText);
-        const mailto = `mailto:tothefuture2026@gmail.com?subject=New%20Peptide%20Order&body=${body}`;
-        window.location.href = mailto;
-    }
 </script>
 </body>
 
 </html>
+
 
 
 
