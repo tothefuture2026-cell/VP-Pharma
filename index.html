@@ -197,44 +197,76 @@
     </div>
 
     <script>
-        function generateOrder() {
-            const form = document.getElementById('orderForm');
-            const selects = form.querySelectorAll('select');
-            let orderDetails = 'Order Details:\n';
-            let total = 0;
-            
-            selects.forEach(select => {
-                const qty = parseInt(select.value);
-                if (qty > 0) {
-                    const name = select.id.replace(/^\w/, c => c.toUpperCase()); // Capitalize peptide name
-                    const price = parseFloat(select.getAttribute('data-price')) || 0;
-                    orderDetails += `${name}: ${qty} vials\n`;
-                    total += qty * price;
-                }
-            });
-            
-            if (orderDetails === 'Order Details:\n') {
-                alert('Please select at least one peptide.');
-                return;
+    function generateOrder() {
+        const form = document.getElementById('orderForm');
+        const selects = form.querySelectorAll('select');
+        let orderDetails = 'Order Details:\n';
+        let total = 0;
+        
+        selects.forEach(select => {
+            const qty = parseInt(select.value);
+            if (qty > 0) {
+                // Improve name formatting (remove extra spaces, capitalize properly)
+                let name = select.id
+                    .replace(/([A-Z])/g, ' $1')          // space before capitals
+                    .replace(/^./, str => str.toUpperCase()) // capitalize first letter
+                    .trim();
+                if (name.includes('iu')) name = name.replace('iu', 'IU'); // fix casing if wanted
+                const price = parseFloat(select.getAttribute('data-price')) || 0;
+                orderDetails += `${name}: ${qty} × $${price.toFixed(2)}\n`;
+                total += qty * price;
             }
-            
-            document.getElementById('summaryText').innerText = orderDetails;
-            document.getElementById('totalPrice').innerText = total > 0 ? `Total Price: $${total.toFixed(2)}` : '';
-            
-            // Customize the email subject, body, and your email address here
-            const email = 'tothefuture2026@gmail.com'; // REPLACE WITH YOUR EMAIL
+        });
+        
+        if (orderDetails === 'Order Details:\n') {
+            alert('Please select at least one item.');
+            return;
+        }
+        
+        // Add total and helpful notes
+        const fullMessage = orderDetails +
+            (total > 0 ? `\nTotal: $${total.toFixed(2)} AUD` : '') +
+            '\n\nPayment: PAYID or Bank Transfer (details after confirmation)' +
+            '\nPlease reply with your full name, shipping address (if Express Post selected), and any questions.' +
+            '\nPromotions: Buy 2 HGH kits → free Reta 10mg | Buy 6 peptides → free Bac Water';
+
+        // Display summary (kept as-is, but improved a bit)
+        document.getElementById('summaryText').innerText = fullMessage;
+        document.getElementById('totalPrice').innerText = total > 0 ? `Total Price: $${total.toFixed(2)}` : '';
+        
+        // Threema link (preferred)
+        const threemaID = 'WXP7H8NF'; // ← Replace with your real ID !!!
+        const encodedText = encodeURIComponent(fullMessage);
+        const threemaLink = `https://threema.id/${threemaID}?text=${encodedText}`;
+
+        // Optional: fallback to email if user cancels Threema prompt
+        if (confirm('This will open Threema to send your order securely.\n\n' +
+                    'Make sure you have Threema installed and your ID added if needed.\n\n' +
+                    'Click OK for Threema • Cancel for old email method.')) {
+            // Open Threema
+            window.location.href = threemaLink;
+            // Also update the visible link as backup (in case popup blocked)
+            document.getElementById('emailLink').href = threemaLink;
+            document.getElementById('emailLink').innerText = 'Open Threema & Send Order';
+        } else {
+            // Fallback to original email
+            const email = 'tothefuture2026@gmail.com';
             const subject = 'New Peptide Order';
-            const body = encodeURIComponent(orderDetails + (total > 0 ? `\nTotal: $${total.toFixed(2)}` : '') + '\n\nPlease provide your name and address if postage selected.');
-            const mailtoLink = `mailto:${email}?subject=${subject}&body=${body}`;
+            const body = encodeURIComponent(fullMessage);
+            const mailtoLink = `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${body}`;
             
             document.getElementById('emailLink').href = mailtoLink;
-            document.getElementById('emailLink').innerText = 'Email This Order to Us';
-            document.getElementById('orderSummary').style.display = 'block';
+            document.getElementById('emailLink').innerText = 'Email This Order (fallback)';
         }
-    </script>
+        
+        document.getElementById('orderSummary').style.display = 'block';
+    }
+</script>
+    
 </body>
 
 </html>
+
 
 
 
