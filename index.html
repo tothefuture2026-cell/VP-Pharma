@@ -17,17 +17,11 @@
 </head>
 <body>
     <h1>Order from the boys at VP Pharma</h1>
-    <p>Select quantities, add express postage if needed, then click "Generate Order" to review and send via Telegram (fastest & most secure). You'll need the Telegram app.</p>
+    <p>Select quantities, add express postage if needed, then click "Generate Order" to review and send via Threema (fastest & most secure). You'll need the Threema app.</p>
     <p>We accept PAYID or Bank Transfer. Details provided after confirmation.</p>
     <p></p>
     <p>Buy 2 HGH kits and get a free Reta 10mg</p>
     <p>Buy 6 peptides and get a free Bac Water</p>
-
-    <p style="background: #e3f2fd; padding: 10px; border-radius: 8px;">
-    <strong>Using Telegram for orders</strong><br>
-    Click the button below after generating — it opens a chat with @vppharma2026 pre-filled with your order.<br>
-    Just hit Send in Telegram. No account? <a href="https://telegram.org/" target="_blank">Download here</a>.<br>
-</p>
     
     <form id="orderForm">
         <label for="BPC-157 10mg">BPC-157 10mg (Price: $90/vial):</label>
@@ -191,7 +185,12 @@
         <!-- Example: Add another peptide -->
         <!-- <label for="peptide3">Semaglutide (Price: $70/vial):</label> -->
         <!-- <select id="peptide3" data-price="70"> ... </select> -->
-        
+ <p style="background:#fff3e0;padding:15px;border-radius:8px;font-weight:bold;">
+    We now use Threema for all orders – fastest and fully private.<br>
+    Click "Generate Order" → then "Send Order via Threema"<br>
+    It will open Threema with your full order ready to send to ID: <strong>D3SJ2S6A</strong><br>
+    Don't have Threema yet? Download it free at <a href="https://threema.ch" target="_blank">threema.ch</a><br>
+</p>       
         <button type="button" onclick="generateOrder()">Generate Order</button>
     </form>
     
@@ -206,7 +205,7 @@
     function generateOrder() {
         const form = document.getElementById('orderForm');
         const selects = form.querySelectorAll('select');
-        let orderDetails = 'New Peptide Order from VP Pharma website\n\n';
+        let orderDetails = 'New Peptide Order (VP Pharma)\n\n';
         let total = 0;
         let items = [];
 
@@ -214,17 +213,15 @@
             const qty = parseInt(select.value);
             if (qty > 0) {
                 let name = select.id
-                    .replace(/([A-Z])/g, ' $1')  // Add space before capitals
+                    .replace(/([A-Z])/g, ' $1')
                     .replace(/^./, str => str.toUpperCase())
                     .trim();
 
-                // Clean up specific names
                 if (name === "Express Post") name = "Express Postage";
                 if (name === "Bac Water 10ml") name = "Bac Water 10ml";
 
                 const price = parseFloat(select.getAttribute('data-price')) || 0;
-                const line = `${name}: ${qty} × $${price.toFixed(0)}`;
-                items.push(line);
+                items.push(`${name}: ${qty} × $${price}`);
                 total += qty * price;
             }
         });
@@ -236,24 +233,27 @@
 
         orderDetails += items.join('\n') + '\n\n';
         orderDetails += `Total: $${total.toFixed(2)}\n\n`;
-        orderDetails += `Payment: PAYID or Bank Transfer (details provided after confirmation)\n`;
-        orderDetails += `Promotions:\n- Buy 2 HGH kits → free Reta 10mg\n- Buy 6 peptides → free Bac Water\n\n`;
-        orderDetails += `Please reply with:\n- Your full name\n- Shipping address (if Express Post selected)\n- Preferred payment method (PAYID or Bank Transfer)\nThank you!`;
+        orderDetails += `Payment: PAYID or Bank Transfer (details after confirmation)\n`;
+        orderDetails += `Promotions applied automatically:\n`;
+        orderDetails += `- Buy 2 HGH kits → free Reta 10mg\n`;
+        orderDetails += `- Buy 6 peptides → free Bac Water\n\n`;
+        orderDetails += `Please reply with your shipping name + address. Thank you!`;
 
-        // Show summary on the page (unchanged)
+        // Show summary on page
         document.getElementById('summaryText').innerText = orderDetails;
-        document.getElementById('totalPrice').innerText = total > 0 ? `Total Price: $${total.toFixed(2)}` : '';
+        document.getElementById('totalPrice').innerText = `Total: $${total.toFixed(2)}`;
 
-        // Create Telegram deep link
-        const telegramUsername = 'vppharma2026';  // Your username (no @)
+        // === THREEMA DEEP LINK ===
+        const threemaID = 'D3SJ2S6A';                                   // ← Your ID
         const encodedText = encodeURIComponent(orderDetails);
-        const telegramLink = `https://t.me/${telegramUsername}?text=${encodedText}`;
+        const threemaLink = `https://threema.id/${threemaID}?text=${encodedText}`;
+        // Mobile devices with Threema app installed will open the app directly
+        // Desktop will open Threema Web (or prompt to install)
 
-        // Update the link button
         const linkElement = document.getElementById('emailLink');
-        linkElement.href = telegramLink;
-        linkElement.innerText = 'Send This Order via Telegram';
-        linkElement.target = '_blank';  // Opens in new tab/window
+        linkElement.href = threemaLink;
+        linkElement.innerText = 'Send Order via Threema (Recommended)';
+        linkElement.target = '_blank';
 
         document.getElementById('orderSummary').style.display = 'block';
     }
@@ -261,6 +261,7 @@
 </body>
 
 </html>
+
 
 
 
