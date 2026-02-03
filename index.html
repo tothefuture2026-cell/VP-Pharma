@@ -20,7 +20,7 @@
     </style>
 </head>
 <body>
-    <p>Select quantities, add express postage if needed, then click "Generate Order" to review and send via Threema (fastest & most secure). You'll need the Threema app. Download from the app store or <a href="https://threema.ch" target="_blank">threema.ch</a></p>
+    <p>Select quantities, add express postage if needed, then click "Generate Order" to review and send via Threema (fastest & most secure). You'll need the Threema app. Download from the app store or <a href="https://threema.com/en/download/threema-private" target="_blank">threema</a></p>
     <p>We accept PAYID or Bank Transfer. Details provided after confirmation.</p>
     <p></p>
     <p><b><u>Buy 2 HGH kits and get a free Reta 10mg</u></b></p>
@@ -192,7 +192,7 @@
     We now use Threema for all orders – fastest and fully private.<br>
     Click "Generate Order" → then "Send Order via Threema"<br>
     It will open Threema with your full order ready to send to ID: <strong>D3SJ2S6A</strong><br>
-    Don't have Threema yet? Download it at <a href="https://threema.ch" target="_blank">threema.ch</a><br>
+    Don't have Threema yet? Download it at <a href="https://threema.com/en/download/threema-private" target="_blank">threema</a><br>
 </p>       
         <button type="button" onclick="generateOrder()">Generate Order</button>
     </form>
@@ -201,7 +201,7 @@
     <h2>Order Summary</h2>
     <p id="summaryText"></p>
     <p id="totalPrice"></p>
-    <a id="emailLink" href="#" target="_blank">Send via Telegram</a>
+    <a id="emailLink" href="#" target="_blank">Send via threema</a>
 </div>
 
     <script>
@@ -237,7 +237,7 @@
         orderDetails += items.join('\n') + '\n\n';
         orderDetails += `Total: $${total.toFixed(2)}\n\n`;
         orderDetails += `Payment: PAYID or Bank Transfer (details after confirmation)\n`;
-        orderDetails += `Promotions applied automatically:\n`;
+        orderDetails += `Promotions applied automatically if applicable:\n`;
         orderDetails += `- Buy 2 HGH kits → free Reta 10mg\n`;
         orderDetails += `- Buy 6 peptides → free Bac Water\n\n`;
         orderDetails += `Please reply with your shipping name + address. Thank you!`;
@@ -264,6 +264,7 @@
 </body>
 
 </html>
+
 
 
 
