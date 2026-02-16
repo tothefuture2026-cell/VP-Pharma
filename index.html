@@ -267,13 +267,13 @@
             <option value="10">10</option>
         </select>
 
-        <label for="Starter Pack">Beginner Starter Pack (Price: $45):<span class="info-link" onclick="showPopup('starter')">ℹ️</span></label>
+        <label for="Starter Pack"><b>Beginner Starter Pack</b> (Price: $45):<span class="info-link" onclick="showPopup('starter')">ℹ️</span></label>
         <select id="Starter Pack" data-price="180">
             <option value="0">0</option>
             <option value="1">1</option>
         </select>
 
-        <label for="Needle Pack">Insulin Needle Pack (Price: $15):<span class="info-link" onclick="showPopup('needles')">ℹ️</span></label>
+        <label for="Needle Pack"><b>Insulin Needle Pack</b> (Price: $15):<span class="info-link" onclick="showPopup('needles')">ℹ️</span></label>
         <select id="Needle Pack" data-price="15">
             <option value="0">0</option>
             <option value="1">1</option>
@@ -360,6 +360,35 @@
 
         document.getElementById('orderSummary').style.display = 'block';
     }
+        function showPopup(type) {
+    let title = '';
+    let content = '';
+
+    if (type === 'starter') {
+        title = 'Beginner Starter Pack – What\'s Included';
+        content = 'Perfect for first-time users!<br><br>' +
+                  '• 1 × 3ml Luer Lock syringe<br>' +
+                  '• 1 × Luer lock 25g 15mm needle<br>' +
+                  '• 1 × Bac Water 10ml (for reconstitution)<br>' +
+                  '• 10 × Insulin syringes (0.5ml / 31G)<br>' +
+                  '• 10 × Alcohol prep pads<br><br>' +
+                  'Everything you need to get started safely and correctly.';
+    } else if (type === 'needle') {
+        title = 'Injection Needle Pack – What\'s Included';
+        content = 'Pack of insulin needles for peptide injecting:<br><br>' +
+                  '• 10 × Insulin syringes (0.5ml or 1ml, 31G 8mm fine needle)<br>' +
+                  '• 10 × Alcohol prep pads<br>' +
+                  'Compatible with all our peptides. Stock up for longer cycles.';
+    }
+
+    document.getElementById('popupTitle').innerText = title;
+    document.getElementById('popupContent').innerHTML = content;
+    document.getElementById('infoModal').style.display = 'flex';
+}
+
+function closePopup() {
+    document.getElementById('infoModal').style.display = 'none';
+}
 </script>
     <div id="infoModal" class="modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.6); z-index:1000; align-items:center; justify-content:center;">
     <div style="background:white; padding:25px; border-radius:10px; max-width:450px; text-align:left; position:relative; box-shadow:0 5px 20px rgba(0,0,0,0.3);">
@@ -377,6 +406,7 @@
 </body>
 
 </html>
+
 
 
 
