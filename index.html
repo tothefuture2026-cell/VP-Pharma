@@ -20,8 +20,8 @@
     </style>
 </head>
 <body>
-    <p>Select quantities, add express postage if needed, then click "Generate Order" to review and send via Threema (fastest & most secure). You'll need the Threema app. Download from the app store or <a href="https://threema.com/en/download/threema-private" target="_blank">threema</a></p>
-    <p>We accept PAYID or Bank Transfer. Details provided after confirmation.</p>
+    <p>Select quantities, and postage if needed, then click "Generate Order" to review and send via Threema. You'll need the Threema app. Download from <a href="https://threema.com/en/download/threema-private" target="_blank">threema</a></p>
+    <p>We accept PAYID or Bank Transfer. Details provided later</p>
     <p></p>
     <p><b><u>Buy 2 HGH kits and get a free Reta 10mg</u></b></p>
     <p><b><u>Buy 6 peptides and get a free Bac Water</u></b></p>
@@ -40,7 +40,6 @@
             <option value="8">8</option>
             <option value="9">9</option>
             <option value="10">10</option>
-            <!-- Add more options if needed, e.g., up to 10 -->
         </select>
         
         <label for="HGH 150iu"><b>HGH 150iu</b> (Price: $550/kit):</label>
@@ -60,6 +59,21 @@
         
         <label for="Reta 10mg"><b>Reta 10mg</b> (Price: $150/vial):</label>
         <select id="Reta 10mg" data-price="150">
+            <option value="0">0</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7">7</option>
+            <option value="8">8</option>
+            <option value="9">9</option>
+            <option value="10">10</option>
+        </select>
+
+        <label for="Reta 30mg"><b>Reta 30mg</b> (Price: $300/vial):</label>
+        <select id="Reta 30mg" data-price="300">
             <option value="0">0</option>
             <option value="1">1</option>
             <option value="2">2</option>
@@ -208,21 +222,6 @@
             <option value="10">10</option>
         </select>
 
-        <label for="SLU-PP-332 5mg"><b>SLU-PP-332 5mg</b> (Price: $70/vial):</label>
-        <select id="SLU-PP-332 5mg" data-price="70">
-            <option value="0">0</option>
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-            <option value="5">5</option>
-            <option value="6">6</option>
-            <option value="7">7</option>
-            <option value="8">8</option>
-            <option value="9">9</option>
-            <option value="10">10</option>
-        </select>
-
         <label for="DSIP 5mg"><b>DSIP 5mg</b> (Price: $60/vial):</label>
         <select id="DSIP 5mg" data-price="60">
             <option value="0">0</option>
@@ -268,6 +267,20 @@
             <option value="10">10</option>
         </select>
 
+        <label for="Starter Pack">Beginner Starter Pack (Price: $45):<span class="info-link" onclick="showPopup('starter')">ℹ️</span></label>
+        <select id="Starter Pack" data-price="180">
+            <option value="0">0</option>
+            <option value="1">1</option>
+        </select>
+
+        <label for="Needle Pack">Insulin Needle Pack (Price: $15):<span class="info-link" onclick="showPopup('needles')">ℹ️</span></label>
+        <select id="Needle Pack" data-price="15">
+            <option value="0">0</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+        </select>
+        
         <label for="Express Post"><b>Express Post</b> (Price: $20):</label>
         <select id="Express Post" data-price="20">
             <option value="0">0</option>
@@ -275,9 +288,6 @@
 
         </select>
         
-        <!-- Example: Add another peptide -->
-        <!-- <label for="peptide3">Semaglutide (Price: $70/vial):</label> -->
-        <!-- <select id="peptide3" data-price="70"> ... </select> -->
  <p style="background:#fff3e0;padding:15px;border-radius:8px;font-weight:bold;">
     We now use Threema for all orders – fastest and fully private.<br>
     Click "Generate Order" → then "Send Order via Threema"<br>
@@ -351,9 +361,23 @@
         document.getElementById('orderSummary').style.display = 'block';
     }
 </script>
+    <div id="infoModal" class="modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.6); z-index:1000; align-items:center; justify-content:center;">
+    <div style="background:white; padding:25px; border-radius:10px; max-width:450px; text-align:left; position:relative; box-shadow:0 5px 20px rgba(0,0,0,0.3);">
+        <span onclick="closePopup()" style="position:absolute; top:10px; right:15px; font-size:28px; cursor:pointer; color:#888;">×</span>
+        <h2 id="popupTitle">What's Included</h2>
+        <div id="popupContent" style="line-height:1.5;"></div>
+        <button onclick="closePopup()" style="margin-top:20px; padding:10px 20px; background:#4CAF50; color:white; border:none; border-radius:5px; cursor:pointer;">Close</button>
+    </div>
+</div>
+
+<style>
+    .info-link { color:#0066cc; cursor:pointer; font-weight:bold; margin-left:8px; }
+    .info-link:hover { text-decoration:underline; }
+</style>
 </body>
 
 </html>
+
 
 
 
