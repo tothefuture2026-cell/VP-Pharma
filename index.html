@@ -403,9 +403,68 @@ function closePopup() {
     .info-link { color:#0066cc; cursor:pointer; font-weight:bold; margin-left:8px; }
     .info-link:hover { text-decoration:underline; }
 </style>
+
+    <!-- Firebase App (required) -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-app.js";
+  import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-database.js";
+
+  // Paste YOUR firebaseConfig here
+  const firebaseConfig = {
+    apiKey: "AIzaSyDFiaM3m-uh_Jwtnq8o08qhqQYc3RVJI4c",
+    authDomain: "vp-pharma.firebaseapp.com",
+    databaseURL: "https://vp-pharma-default-rtdb.asia-southeast1.firebasedatabase.app",
+    projectId: "vp-pharma",
+    storageBucket: "vp-pharma.firebasestorage.app",
+    messagingSenderId: "476493248677",
+    appId: "1:476493248677:web:a9a4884896161da3d4354c",
+    measurementId: "G-G65VKH5QQ2"
+  };
+
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  const db = getDatabase(app);
+// Listen for stock changes (real-time)
+const stockRef = ref(db, 'stock');
+onValue(stockRef, (snapshot) => {
+  const stockData = snapshot.val() || {};
+
+  // Now update your selects
+  document.querySelectorAll('select').forEach(select => {
+    const productId = select.id.trim(); // matches your <select id="BPC-157 10mg">
+    const stock = stockData[productId] ?? 999; // default high if missing
+
+    // Optional: show stock in label
+    const label = select.previousElementSibling;
+    if (label && label.tagName === 'LABEL') {
+      label.innerHTML = label.innerHTML.replace(/\s*\(Stock:.*?\)/, '') + 
+                        ` (Stock: ${stock === 999 ? 'Plenty' : stock})`;
+    }
+
+    // Disable options higher than stock
+    Array.from(select.options).forEach(opt => {
+      const qty = parseInt(opt.value);
+      if (qty > stock && qty !== 0) {
+        opt.disabled = true;
+        opt.textContent = `${qty} (out of stock)`;
+      } else {
+        opt.disabled = false;
+        opt.textContent = qty; // reset text
+      }
+    });
+
+    // Reset selection if current value too high
+    if (parseInt(select.value) > stock) {
+      select.value = stock > 0 ? stock : 0;
+    }
+  });
+});
+  // ← Your existing script code goes here or below
+</script>
 </body>
 
 </html>
+
 
 
 
